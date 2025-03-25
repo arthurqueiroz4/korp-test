@@ -14,4 +14,5 @@ func NewProductRouter(db *gorm.DB, r fiber.Router) {
 	ps := service.NewProductService(pr)
 	pc := controller.NewProductController(ps)
 	r.Post("/products", pc.Create)
+	r.Get("/products", pc.GetAll)
 }

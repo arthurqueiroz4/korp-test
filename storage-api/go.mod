@@ -4,6 +4,7 @@ go 1.23.2
 
 require (
 	github.com/gofiber/fiber/v3 v3.0.0-beta.4
+	github.com/peteprogrammer/go-automapper v0.0.0-20200419053654-7c63d5bb0eb4
 	github.com/spf13/viper v1.20.0
 	gorm.io/driver/postgres v1.5.11
 )
@@ -16,7 +17,6 @@ require (
 	github.com/jackc/pgx/v5 v5.5.5 // indirect
 	github.com/jackc/puddle/v2 v2.2.1 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.3 // indirect
-	github.com/peteprogrammer/go-automapper v0.0.0-20200419053654-7c63d5bb0eb4 // indirect
 	github.com/sagikazarmark/locafero v0.7.0 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect
 	github.com/spf13/afero v1.12.0 // indirect

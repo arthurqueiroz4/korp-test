@@ -43,3 +43,26 @@ func (ps *ProductService) Create(creatingDto *dto.ProductCreateDto) (*dto.Produc
 	automapper.Map(p, readingDto)
 	return readingDto, nil
 }
+
+func (ps *ProductService) GetAll(page, size int) (*dto.Page[dto.ProductReadDto], error) {
+	if page < 0 {
+		page = 1
+	}
+	if size <= 0 {
+		size = 10
+	}
+
+	products, err := ps.pr.FindAll(page, size)
+	if err != nil {
+		return nil, err
+	}
+
+	responseDtos := make([]dto.ProductReadDto, len(products))
+	automapper.Map(products, &responseDtos)
+
+	return &dto.Page[dto.ProductReadDto]{
+		Content: responseDtos,
+		Page:    page,
+		Size:    size,
+	}, nil
+}

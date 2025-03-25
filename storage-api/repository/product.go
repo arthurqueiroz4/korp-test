@@ -39,3 +39,19 @@ func (pr *ProductRepository) FindByName(name string) (*domain.Product, error) {
 	}
 	return &product, nil
 }
+
+func (pr *ProductRepository) FindAll(page, size int) ([]domain.Product, error) {
+	var products []domain.Product
+	offset := (page - 1) * size
+
+	result := pr.db.
+		Offset(offset).
+		Limit(size).
+		Find(&products)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return products, nil
+}

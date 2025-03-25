@@ -15,9 +15,11 @@ type Product struct {
 
 type ProductService interface {
 	Create(dto *dto.ProductCreateDto) (*dto.ProductReadDto, error)
+	GetAll(page, size int) (*dto.Page[dto.ProductReadDto], error)
 }
 
 type ProductRepository interface {
 	Create(p *Product) error
 	FindByName(name string) (*Product, error)
+	FindAll(page, size int) ([]Product, error)
 }
