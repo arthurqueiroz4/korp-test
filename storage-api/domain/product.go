@@ -8,3 +8,9 @@ type Product struct {
 	Description string `gorm:"type:varchar(256)"`
 	Balance     int
 }
+
+// TODO: Implement this
+type ProductService interface{}
+
+// TODO: Implement this
+type ProductRepository interface{}

@@ -2,6 +2,7 @@ package api
 
 import (
 	"storage-api/api/middleware"
+	"storage-api/api/route"
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/logger"
@@ -18,4 +19,8 @@ func Setup(app *fiber.App, db *gorm.DB) {
 	}))
 
 	app.Use(middleware.ErrorMiddleware)
+
+	defaultRouter := app.Group("/api")
+
+	route.NewProductRouter(db, defaultRouter)
 }
