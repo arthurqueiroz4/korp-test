@@ -50,3 +50,17 @@ func (pc *ProductController) GetAll(c fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).
 		JSON(responseDtos)
 }
+
+func (pc *ProductController) Delete(c fiber.Ctx) error {
+	idStr := c.Params("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		return err
+	}
+
+	err = pc.ps.Delete(id)
+	if err != nil {
+		return nil
+	}
+	return c.SendStatus(fiber.StatusNoContent)
+}

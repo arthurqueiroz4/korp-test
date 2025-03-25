@@ -55,3 +55,17 @@ func (pr *ProductRepository) FindAll(page, size int) ([]domain.Product, error) {
 
 	return products, nil
 }
+
+func (pr *ProductRepository) Delete(id int) error {
+	result := pr.db.Delete(&domain.Product{}, id)
+
+	if result.Error != nil {
+		return result.Error
+	}
+
+	if result.RowsAffected == 0 {
+		return gorm.ErrRecordNotFound
+	}
+
+	return nil
+}

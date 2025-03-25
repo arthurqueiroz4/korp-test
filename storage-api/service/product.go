@@ -66,3 +66,8 @@ func (ps *ProductService) GetAll(page, size int) (*dto.Page[dto.ProductReadDto],
 		Size:    size,
 	}, nil
 }
+
+func (ps *ProductService) Delete(id int) error {
+	_ = ps.pr.Delete(id)
+	return nil
+}

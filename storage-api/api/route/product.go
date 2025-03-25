@@ -15,4 +15,5 @@ func NewProductRouter(db *gorm.DB, r fiber.Router) {
 	pc := controller.NewProductController(ps)
 	r.Post("/products", pc.Create)
 	r.Get("/products", pc.GetAll)
+	r.Delete("/products/:id", pc.Delete)
 }
