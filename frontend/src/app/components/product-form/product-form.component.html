@@ -2,16 +2,24 @@
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Nome</mat-label>
     <input matInput formControlName="name" placeholder="Digite o nome do produto">
+    <mat-hint align="end">{{productForm.get('name')?.value?.length || 0}}/128</mat-hint>
     <mat-error *ngIf="productForm.get('name')?.hasError('required')">
       Nome é obrigatório
+    </mat-error>
+    <mat-error *ngIf="productForm.get('name')?.hasError('maxlength')">
+      Nome deve ter no máximo 128 caracteres
     </mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Descrição</mat-label>
     <textarea matInput formControlName="description" placeholder="Digite a descrição do produto"></textarea>
+    <mat-hint align="end">{{productForm.get('description')?.value?.length || 0}}/256</mat-hint>
     <mat-error *ngIf="productForm.get('description')?.hasError('required')">
       Descrição é obrigatória
+    </mat-error>
+    <mat-error *ngIf="productForm.get('description')?.hasError('maxlength')">
+      Descrição deve ter no máximo 256 caracteres
     </mat-error>
   </mat-form-field>
 

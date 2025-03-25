@@ -34,8 +34,8 @@ export class ProductFormComponent {
     private router: Router
   ) {
     this.productForm = this.fb.group({
-      name: ['', [Validators.required]],
-      description: ['', [Validators.required]],
+      name: ['', [Validators.required, Validators.maxLength(128)]],
+      description: ['', [Validators.required, Validators.maxLength(256)]],
       balance: [0, [Validators.required, Validators.min(0)]]
     });
   }
