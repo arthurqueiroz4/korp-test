@@ -13,7 +13,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func NewPostgresDatabase(env *Env) gorm.DB {
+func NewPostgresDatabase(env *Env) *gorm.DB {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -47,7 +47,7 @@ func NewPostgresDatabase(env *Env) gorm.DB {
 	ctx.Done()
 
 	slog.Info("Database connection established")
-	return *db
+	return db
 }
 
 func ClosePostgresDatabase(db gorm.DB) {

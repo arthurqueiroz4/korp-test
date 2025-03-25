@@ -5,6 +5,7 @@ go 1.23.2
 require (
 	github.com/gofiber/fiber/v3 v3.0.0-beta.4
 	github.com/spf13/viper v1.20.0
+	gorm.io/driver/postgres v1.5.11
 )
 
 require (
@@ -25,7 +26,6 @@ require (
 	go.uber.org/multierr v1.9.0 // indirect
 	golang.org/x/sync v0.12.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	gorm.io/driver/postgres v1.5.11 // indirect
 )
 
 require (
