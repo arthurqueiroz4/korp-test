@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"log/slog"
+	"storage-api/domain"
 	"time"
 
 	"gorm.io/driver/postgres"
@@ -41,7 +42,7 @@ func NewPostgresDatabase(env *Env) gorm.DB {
 	sqlDB.SetMaxOpenConns(50)
 	sqlDB.SetConnMaxLifetime(10 * time.Minute)
 
-	db.AutoMigrate()
+	db.AutoMigrate(domain.Product{})
 
 	ctx.Done()
 
