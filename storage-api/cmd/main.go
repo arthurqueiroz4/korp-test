@@ -2,11 +2,14 @@ package main
 
 import (
 	"log"
+	"storage-api/config"
 
 	"github.com/gofiber/fiber/v3"
 )
 
 func main() {
+	env := config.NewEnv()
+	_ = config.NewPostgresDatabase(env)
 	app := fiber.New()
 
 	app.Get("/health", func(c fiber.Ctx) error {
@@ -14,5 +17,5 @@ func main() {
 		return err
 	})
 
-	log.Fatal(app.Listen(":3000"))
+	log.Fatal(app.Listen(env.WebServerPort))
 }
