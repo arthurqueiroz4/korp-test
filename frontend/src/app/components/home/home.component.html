@@ -1,0 +1,21 @@
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Produtos</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="options">
+        <mat-button-toggle-group [value]="selectedOption" (change)="onOptionChange($event.value)">
+          <mat-button-toggle value="list">Listar</mat-button-toggle>
+          <mat-button-toggle value="create">Criar</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <div class="content">
+        <app-product-list *ngIf="selectedOption === 'list'"></app-product-list>
+        <app-product-form *ngIf="selectedOption === 'create'"></app-product-form>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
