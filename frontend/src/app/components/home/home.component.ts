@@ -28,4 +28,8 @@ export class HomeComponent {
   onOptionChange(option: 'list' | 'create'): void {
     this.selectedOption = option;
   }
+
+  onProductCreated(): void {
+    this.selectedOption = 'list';
+  }
 }

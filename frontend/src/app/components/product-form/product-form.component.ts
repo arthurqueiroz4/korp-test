@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -25,6 +25,8 @@ import { ProductService } from '../../services/product.service';
   styleUrl: './product-form.component.css'
 })
 export class ProductFormComponent {
+  @Output() productCreated = new EventEmitter<void>();
+  
   productForm: FormGroup;
   isLoading = false;
 
@@ -45,7 +47,7 @@ export class ProductFormComponent {
       this.isLoading = true;
       this.productService.createProduct(this.productForm.value).subscribe({
         next: () => {
-          this.router.navigate(['/products']);
+          this.productCreated.emit();
         },
         error: (error) => {
           console.error('Erro ao criar produto:', error);

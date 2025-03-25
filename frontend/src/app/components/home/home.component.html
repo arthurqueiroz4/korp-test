@@ -14,7 +14,7 @@
 
       <div class="content">
         <app-product-list *ngIf="selectedOption === 'list'"></app-product-list>
-        <app-product-form *ngIf="selectedOption === 'create'"></app-product-form>
+        <app-product-form *ngIf="selectedOption === 'create'" (productCreated)="onProductCreated()"></app-product-form>
       </div>
     </mat-card-content>
   </mat-card>
