@@ -1,6 +1,7 @@
 package config
 
 import (
+	"billing-api/domain"
 	"context"
 	"errors"
 	"fmt"
@@ -41,7 +42,7 @@ func NewPostgresDatabase(env *Env) *gorm.DB {
 	sqlDB.SetMaxOpenConns(50)
 	sqlDB.SetConnMaxLifetime(10 * time.Minute)
 
-	db.AutoMigrate()
+	db.AutoMigrate(&domain.Invoice{}, &domain.InvoiceProduct{})
 
 	ctx.Done()
 
