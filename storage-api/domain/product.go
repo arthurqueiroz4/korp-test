@@ -1,6 +1,10 @@
 package domain
 
-import "gorm.io/gorm"
+import (
+	"storage-api/dto"
+
+	"gorm.io/gorm"
+)
 
 type Product struct {
 	gorm.Model
@@ -9,8 +13,11 @@ type Product struct {
 	Balance     int
 }
 
-// TODO: Implement this
-type ProductService interface{}
+type ProductService interface {
+	Create(dto *dto.ProductCreateDto) (*dto.ProductReadDto, error)
+}
 
-// TODO: Implement this
-type ProductRepository interface{}
+type ProductRepository interface {
+	Create(p *Product) error
+	FindByName(name string) (*Product, error)
+}

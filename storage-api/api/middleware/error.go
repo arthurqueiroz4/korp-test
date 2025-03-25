@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"log/slog"
 	"storage-api/exception"
 
 	"github.com/gofiber/fiber/v3"
@@ -16,11 +17,11 @@ func ErrorMiddleware(c fiber.Ctx) error {
 }
 
 func handleErrBase(c fiber.Ctx, err error) error {
+	slog.Error("ErrorMiddleware", "err", err)
 	if errBase, ok := err.(*exception.ErrorBase); ok {
 		return c.Status(errBase.Status).
 			JSON(map[string]any{
 				"message": errBase.Message,
-				"body":    errBase.Body,
 			})
 	}
 

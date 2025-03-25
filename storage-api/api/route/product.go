@@ -2,14 +2,16 @@ package route
 
 import (
 	"storage-api/api/controller"
-	"storage-api/domain"
+	"storage-api/repository"
+	"storage-api/service"
 
 	"github.com/gofiber/fiber/v3"
 	"gorm.io/gorm"
 )
 
 func NewProductRouter(db *gorm.DB, r fiber.Router) {
-	var ps domain.ProductService
+	pr := repository.NewPostgresRepository(db)
+	ps := service.NewProductService(pr)
 	pc := controller.NewProductController(ps)
 	r.Post("/products", pc.Create)
 }

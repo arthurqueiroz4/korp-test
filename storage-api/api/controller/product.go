@@ -2,6 +2,7 @@ package controller
 
 import (
 	"storage-api/domain"
+	"storage-api/dto"
 
 	"github.com/gofiber/fiber/v3"
 )
@@ -15,6 +16,15 @@ func NewProductController(ps domain.ProductService) *ProductController {
 }
 
 func (pc *ProductController) Create(c fiber.Ctx) error {
-	c.WriteString("ProductController#Create")
-	return nil
+	dto := new(dto.ProductCreateDto)
+
+	if err := c.Bind().JSON(dto); err != nil {
+		return err
+	}
+	responseDto, err := pc.ps.Create(dto)
+	if err != nil {
+		return err
+	}
+	return c.Status(fiber.StatusCreated).
+		JSON(responseDto)
 }

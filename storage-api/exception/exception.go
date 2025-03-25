@@ -1,7 +1,6 @@
 package exception
 
 type ErrorBase struct {
-	Body    any
 	Message string
 	Status  int
 }
@@ -23,13 +22,13 @@ type (
 )
 
 func NewErrBadRequest(body any, message string) ErrBadRequest {
-	return &ErrorBase{Body: body, Message: message, Status: 400}
+	return &ErrorBase{Message: message, Status: 400}
 }
 
 func NewErrNotFound(body any, message string) ErrNotFound {
-	return &ErrorBase{Body: body, Message: message, Status: 404}
+	return &ErrorBase{Message: message, Status: 404}
 }
 
 func NewErrInternalServer(body any, message string) ErrInternalServer {
-	return &ErrorBase{Body: body, Message: message, Status: 500}
+	return &ErrorBase{Message: message, Status: 500}
 }
