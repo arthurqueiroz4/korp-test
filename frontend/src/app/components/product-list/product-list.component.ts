@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
 import { ProductService, Product } from '../../services/product.service';
 
@@ -14,6 +16,8 @@ import { ProductService, Product } from '../../services/product.service';
     MatTableModule,
     MatCardModule,
     MatButtonModule,
+    MatIconModule,
+    MatDialogModule,
     RouterModule
   ],
   templateUrl: './product-list.component.html',
@@ -21,10 +25,13 @@ import { ProductService, Product } from '../../services/product.service';
 })
 export class ProductListComponent implements OnInit {
   products: Product[] = [];
-  displayedColumns: string[] = ['id', 'name', 'description', 'balance'];
+  displayedColumns: string[] = ['id', 'name', 'description', 'balance', 'actions'];
   isLoading = false;
 
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.loadProducts();
@@ -34,15 +41,26 @@ export class ProductListComponent implements OnInit {
     this.isLoading = true;
     this.productService.getProducts().subscribe({
       next: (response) => {
-        setTimeout(() => {
-          this.products = response.content;
-          this.isLoading = false;
-        }, 500);
+        this.products = response.content;
+        this.isLoading = false;
       },
       error: (error) => {
         console.error('Erro ao carregar produtos:', error);
         this.isLoading = false;
       }
     });
+  }
+
+  deleteProduct(id: string): void {
+    if (confirm('Tem certeza que deseja excluir este produto?')) {
+      this.productService.deleteProduct(id).subscribe({
+        next: () => {
+          this.loadProducts();
+        },
+        error: (error) => {
+          console.error('Erro ao excluir produto:', error);
+        }
+      });
+    }
   }
 }

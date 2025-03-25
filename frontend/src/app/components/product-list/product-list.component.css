@@ -20,3 +20,21 @@ mat-card {
   background-color: #f5f5f5;
   cursor: pointer;
 }
+
+.mat-column-actions {
+  width: 80px;
+  text-align: center;
+}
+
+.mat-column-id {
+  width: 100px;
+}
+
+.mat-column-balance {
+  width: 100px;
+  text-align: right;
+}
+
+td.mat-column-balance {
+  padding-right: 24px;
+}
