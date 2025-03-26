@@ -27,3 +27,10 @@ services:
         interval: 10s
         timeout: 5s
         retries: 5
+  message-broker:
+      container_name: message-broker
+      image: rabbitmq:3-management-alpine
+      ports:
+        - 5672:5672   # for sender and consumer connections
+        - 15672:15672 # for serve RabbitMQ GUI
+      restart: always

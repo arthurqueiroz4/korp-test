@@ -14,6 +14,8 @@ type Env struct {
 	DBPassword    string `mapstructure:"DB_PASSWORD"`
 	DBName        string `mapstructure:"DB_NAME"`
 	WebServerPort string `mapstructure:"PORT"`
+	AmqpServerUrl string `mapstructure:"AMQP_SERVER_URL"`
+	QueueName     string `mapstructure:"QUEUE_NAME"`
 }
 
 func NewEnv() *Env {
