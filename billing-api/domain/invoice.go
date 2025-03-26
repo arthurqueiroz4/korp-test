@@ -1,6 +1,8 @@
 package domain
 
 import (
+	"billing-api/dto"
+
 	"gorm.io/gorm"
 )
 
@@ -14,12 +16,22 @@ const (
 
 type Invoice struct {
 	gorm.Model
-	Numeration string           `gorm:"type:varchar(50)"`
-	Status     Status           `gorm:"type:varchar(20);default:'OPENED'"`
-	Items      []InvoiceProduct `gorm:"foreignKey:InvoiceID"`
+	Numeration string            `gorm:"type:varchar(50)"`
+	Status     string            `gorm:"type:varchar(20);default:'OPENED'"`
+	Items      []*InvoiceProduct `gorm:"foreignKey:InvoiceID"`
 }
 
 type InvoiceProduct struct {
 	InvoiceID uint `gorm:"not null;index"`
 	ProductID uint `gorm:"not null;index"`
+	Quantity  int
+}
+
+type InvoiceService interface {
+	Create(creatingDto *dto.InvoiceCreateDto) (*dto.InvoiceReadDto, error)
+}
+
+type InvoiceRepository interface {
+	Create(i *Invoice) error
+	FindByNumeration(n string) (*Invoice, error)
 }

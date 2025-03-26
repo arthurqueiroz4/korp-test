@@ -21,14 +21,14 @@ type (
 	}
 )
 
-func NewErrBadRequest(body any, message string) ErrBadRequest {
+func NewErrBadRequest(message string) ErrBadRequest {
 	return &ErrorBase{Message: message, Status: 400}
 }
 
-func NewErrNotFound(body any, message string) ErrNotFound {
+func NewErrNotFound(message string) ErrNotFound {
 	return &ErrorBase{Message: message, Status: 404}
 }
 
-func NewErrInternalServer(body any, message string) ErrInternalServer {
+func NewErrInternalServer(message string) ErrInternalServer {
 	return &ErrorBase{Message: message, Status: 500}
 }
