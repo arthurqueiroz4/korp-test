@@ -30,10 +30,15 @@ type InvoiceProduct struct {
 type InvoiceService interface {
 	Create(creatingDto *dto.InvoiceCreateDto) (*dto.InvoiceReadDto, error)
 	GetAll(page, size int) (*dto.Page[dto.InvoiceReadDto], error)
+	GetInvoiceProductsById(id uint) ([]InvoiceProduct, error)
+
+	UpdateStatus(invoiceId uint, status string) error
 }
 
 type InvoiceRepository interface {
 	Create(i *Invoice) error
 	FindByNumeration(n string) (*Invoice, error)
 	FindAll(page, size int) ([]Invoice, int, error)
+	FindInvoiceProductsById(id uint) ([]InvoiceProduct, error)
+	UpdateStatus(id uint, status string) error
 }

@@ -7,15 +7,16 @@ import (
 )
 
 type Env struct {
-	DBDriver      string `mapstructure:"DB_DRIVER"`
-	DBHost        string `mapstructure:"DB_HOST"`
-	DBPort        string `mapstructure:"DB_PORT"`
-	DBUser        string `mapstructure:"DB_USER"`
-	DBPassword    string `mapstructure:"DB_PASSWORD"`
-	DBName        string `mapstructure:"DB_NAME"`
-	WebServerPort string `mapstructure:"PORT"`
-	AmqpServerUrl string `mapstructure:"AMQP_SERVER_URL"`
-	QueueName     string `mapstructure:"QUEUE_NAME"`
+	DBDriver             string `mapstructure:"DB_DRIVER"`
+	DBHost               string `mapstructure:"DB_HOST"`
+	DBPort               string `mapstructure:"DB_PORT"`
+	DBUser               string `mapstructure:"DB_USER"`
+	DBPassword           string `mapstructure:"DB_PASSWORD"`
+	DBName               string `mapstructure:"DB_NAME"`
+	WebServerPort        string `mapstructure:"PORT"`
+	AmqpServerUrl        string `mapstructure:"AMQP_SERVER_URL"`
+	QueueNameToStorage   string `mapstructure:"BILLING_TO_STORAGE_QUEUE"`
+	QueueNameFromStorage string `mapstructure:"STORAGE_TO_BILLING_QUEUE"`
 }
 
 func NewEnv() *Env {

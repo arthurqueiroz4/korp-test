@@ -11,9 +11,10 @@ import (
 func main() {
 	env := config.NewEnv()
 	db := config.NewPostgresDatabase(env)
+	config.BuildAndListenQueues(env, db)
 	app := fiber.New()
 
-	api.Setup(app, db)
+	api.Setup(app, db, env)
 
 	app.Get("/health", func(c fiber.Ctx) error {
 		_, err := c.WriteString("ok")

@@ -3,6 +3,7 @@ package api
 import (
 	"billing-api/api/middleware"
 	"billing-api/api/route"
+	"billing-api/config"
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/cors"
@@ -11,7 +12,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func Setup(app *fiber.App, db *gorm.DB) {
+func Setup(app *fiber.App, db *gorm.DB, env *config.Env) {
 	app.Use(cors.New())
 	app.Use(recoverer.New())
 	app.Use(logger.New(logger.Config{
@@ -25,4 +26,5 @@ func Setup(app *fiber.App, db *gorm.DB) {
 	defaultRouter := app.Group("/api")
 
 	route.NewInvoiceRouter(db, defaultRouter)
+	route.NewQueueRouter(env, db, defaultRouter)
 }

@@ -16,3 +16,8 @@ type InvoiceProductDto struct {
 	ID       uint `json:"id"`
 	Quantity int  `json:"quantity"`
 }
+
+type InvoiceProductRecvDto struct {
+	InvoiceId uint   `json:"invoiceId"`
+	Status    string `json:"status"`
+}

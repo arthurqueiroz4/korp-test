@@ -3,6 +3,7 @@ package repository
 import (
 	"billing-api/domain"
 	"errors"
+	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -70,7 +71,38 @@ func (ir *InvoiceRepository) FindAll(page, size int) ([]domain.Invoice, int, err
 	}
 
 	var count int64
-	result = ir.db.Model(&domain.Invoice{}).Count(&count)
+	ir.db.Model(&domain.Invoice{}).Count(&count)
 
 	return invoices, int(count), nil
+}
+
+func (ir *InvoiceRepository) UpdateStatus(id uint, status string) error {
+	result := ir.db.Model(&domain.Invoice{}).
+		Where("id = ?", id).
+		Update("status", status)
+
+	if result.Error != nil {
+		return fmt.Errorf("failed to update invoice status: %w", result.Error)
+	}
+
+	if result.RowsAffected == 0 {
+		return fmt.Errorf("invoice with ID %d not found", id)
+	}
+
+	return nil
+}
+
+func (ir *InvoiceRepository) FindInvoiceProductsById(id uint) ([]domain.InvoiceProduct, error) {
+	var invoiceProducts []domain.InvoiceProduct
+
+	err := ir.db.Where("invoice_id = ?", id).Find(&invoiceProducts).Error
+	if err != nil {
+		return nil, fmt.Errorf("failed to find invoice products: %w", err)
+	}
+
+	if len(invoiceProducts) == 0 {
+		return nil, fmt.Errorf("no products found for invoice ID %d", id)
+	}
+
+	return invoiceProducts, nil
 }
