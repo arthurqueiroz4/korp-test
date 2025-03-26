@@ -27,6 +27,12 @@ table {
   text-align: center;
 }
 
+.mat-column-actions {
+  width: 80px;
+  text-align: left;
+  padding-left: 0;
+}
+
 .status-opened {
   color: #1976D2;
   font-weight: 500;
@@ -49,6 +55,14 @@ table {
   padding: 4px 8px;
   border-radius: 4px;
   background-color: #E8F5E9;
+}
+
+.status-failed {
+  color: #D32F2F;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: #FFEBEE;
 }
 
 .table-container {

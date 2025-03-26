@@ -25,7 +25,7 @@ import { InvoiceService, Invoice } from '../../services/invoice.service';
 })
 export class InvoiceListComponent implements OnInit {
   invoices: Invoice[] = [];
-  displayedColumns: string[] = ['id', 'numeration', 'status', 'productsCount'];
+  displayedColumns: string[] = ['id', 'numeration', 'status', 'productsCount', 'actions'];
   isLoading = false;
 
   // Paginação
@@ -65,7 +65,8 @@ export class InvoiceListComponent implements OnInit {
     return {
       'OPENED': 'status-opened',
       'PROCESSING': 'status-processing',
-      'CLOSED': 'status-closed'
+      'CLOSED': 'status-closed',
+      'FAILED': 'status-failed'
     }[status] || '';
   }
 
@@ -73,7 +74,25 @@ export class InvoiceListComponent implements OnInit {
     return {
       'OPENED': 'Em Aberto',
       'PROCESSING': 'Em Processamento',
-      'CLOSED': 'Concluída'
+      'CLOSED': 'Concluída',
+      'FAILED': 'Falhou'
     }[status] || status;
+  }
+
+  canProcess(invoice: Invoice): boolean {
+    return invoice.status === 'OPENED' || invoice.status === 'FAILED';
+  }
+
+  processInvoice(invoice: Invoice): void {
+    if (invoice.id) {
+      this.invoiceService.enqueueInvoice(invoice.id).subscribe({
+        next: () => {
+          this.loadInvoices();
+        },
+        error: (error) => {
+          console.error('Erro ao processar nota fiscal:', error);
+        }
+      });
+    }
   }
 } 

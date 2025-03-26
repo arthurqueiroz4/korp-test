@@ -11,7 +11,7 @@ export interface InvoiceProduct {
 export interface Invoice {
   id?: number;
   numeration: string;
-  status: "OPENED" | "CLOSED" | "PROCESSING";
+  status: "OPENED" | "CLOSED" | "PROCESSING" | "FAILED";
   products: InvoiceProduct[];
 }
 
@@ -36,5 +36,9 @@ export class InvoiceService {
 
   createInvoice(invoice: Invoice): Observable<Invoice> {
     return this.http.post<Invoice>(`${this.apiUrl}/invoices`, invoice);
+  }
+
+  enqueueInvoice(id: number): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/invoices/enqueue/${id}`, {});
   }
 } 
