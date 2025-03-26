@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	"log/slog"
 	"storage-api/domain"
 	"storage-api/dto"
 	"storage-api/exception"
@@ -81,14 +82,14 @@ func (ps *ProductService) ValidateQuantity(ips []dto.InvoiceProductDto) error {
 
 	ids := make([]uint, len(ips))
 	for i, ip := range ips {
-		ids[i] = ip.InvoiceID
+		ids[i] = ip.ProductID
 	}
 
 	products, err := ps.pr.FindAllByIds(ids)
 	if err != nil {
 		return err
 	}
-
+	slog.Info("ProductService#ValidateQuantity", "products", products)
 	stockByProductID := make(map[uint]int, len(products))
 	for _, product := range products {
 		stockByProductID[product.ID] = product.Balance

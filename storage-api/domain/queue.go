@@ -1,11 +1,13 @@
 package domain
 
+import "storage-api/dto"
+
 type QueueConfig struct {
 	Address string
 	Name    string
 }
 
 type QueueService interface {
-	Create(qc QueueConfig) error
-	Consume()
+	Listen()
+	Send(dtos []dto.InvoiceProductDto) error
 }

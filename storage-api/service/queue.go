@@ -30,10 +30,39 @@ func (qs *QueueService) Listen() {
 		var dtos []dto.InvoiceProductDto
 		json.Unmarshal(message.Body, &dtos)
 		slog.Info("QueueService#Listen", "recv", message.Body, "converted", dtos)
+
+		if len(dtos) == 0 {
+			continue
+		}
+
 		err := qs.ps.UpdateBalance(dtos)
 		if err != nil {
 			slog.Error("QueueService#Listen", "error", err)
 			continue
 		}
+
+		err = qs.Send(dtos)
+		if err != nil {
+			continue
+		}
 	}
+}
+
+func (qs *QueueService) Send(dtos []dto.InvoiceProductDto) error {
+	dtoToSend := dto.MessageForBilling{
+		InvoiceID: dtos[0].InvoiceID,
+		Status:    "CLOSED",
+	}
+
+	msg, err := json.Marshal(dtoToSend)
+	if err != nil {
+		slog.Error("QueueService#Send", "error", err)
+		return err
+	}
+	err = qs.send.Publish(msg)
+	if err == nil {
+		slog.Info("QueueService#Send", "send", msg, "converted", dtoToSend)
+	}
+
+	return nil
 }
