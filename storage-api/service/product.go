@@ -52,7 +52,7 @@ func (ps *ProductService) GetAll(page, size int) (*dto.Page[dto.ProductReadDto],
 		size = 10
 	}
 
-	products, err := ps.pr.FindAll(page, size)
+	products, total, err := ps.pr.FindAll(page, size)
 	if err != nil {
 		return nil, err
 	}
@@ -64,6 +64,7 @@ func (ps *ProductService) GetAll(page, size int) (*dto.Page[dto.ProductReadDto],
 		Content: responseDtos,
 		Page:    page,
 		Size:    size,
+		Total:   total,
 	}, nil
 }
 

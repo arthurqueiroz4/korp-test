@@ -74,7 +74,7 @@ func (is *InvoiceService) GetAll(page, size int) (*dto.Page[dto.InvoiceReadDto],
 		size = 10
 	}
 
-	invoices, err := is.ir.FindAll(page, size)
+	invoices, total, err := is.ir.FindAll(page, size)
 	if err != nil {
 		return nil, err
 	}
@@ -89,5 +89,6 @@ func (is *InvoiceService) GetAll(page, size int) (*dto.Page[dto.InvoiceReadDto],
 		Content: responseDtos,
 		Page:    page,
 		Size:    size,
+		Total:   total,
 	}, nil
 }

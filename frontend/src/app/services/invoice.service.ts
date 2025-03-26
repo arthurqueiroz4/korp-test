@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Product } from './product.service';
 
 export interface InvoiceProduct {
   id?: number;
@@ -18,6 +19,7 @@ export interface InvoiceResponse {
   content: Invoice[];
   page: number;
   size: number;
+  total: number;
 }
 
 @Injectable({

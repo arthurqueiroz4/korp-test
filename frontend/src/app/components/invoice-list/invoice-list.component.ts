@@ -4,6 +4,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
 import { InvoiceService, Invoice } from '../../services/invoice.service';
 
@@ -16,6 +17,7 @@ import { InvoiceService, Invoice } from '../../services/invoice.service';
     MatCardModule,
     MatButtonModule,
     MatIconModule,
+    MatPaginatorModule,
     RouterModule
   ],
   templateUrl: './invoice-list.component.html',
@@ -26,6 +28,12 @@ export class InvoiceListComponent implements OnInit {
   displayedColumns: string[] = ['id', 'numeration', 'status', 'productsCount'];
   isLoading = false;
 
+  // Paginação
+  totalItems = 0;
+  pageSize = 10;
+  currentPage = 0;
+  pageSizeOptions = [5, 10, 25, 50];
+
   constructor(private invoiceService: InvoiceService) {}
 
   ngOnInit(): void {
@@ -34,9 +42,10 @@ export class InvoiceListComponent implements OnInit {
 
   loadInvoices(): void {
     this.isLoading = true;
-    this.invoiceService.getInvoices().subscribe({
+    this.invoiceService.getInvoices(this.currentPage, this.pageSize).subscribe({
       next: (response) => {
         this.invoices = response.content;
+        this.totalItems = response.total;
         this.isLoading = false;
       },
       error: (error) => {
@@ -44,6 +53,12 @@ export class InvoiceListComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  onPageChange(event: PageEvent): void {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.loadInvoices();
   }
 
   getStatusClass(status: string): string {
@@ -57,7 +72,7 @@ export class InvoiceListComponent implements OnInit {
   getStatusText(status: string): string {
     return {
       'OPENED': 'Em Aberto',
-      'PROCESSING': 'Processando',
+      'PROCESSING': 'Em Processamento',
       'CLOSED': 'Concluída'
     }[status] || status;
   }

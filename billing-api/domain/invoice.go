@@ -35,5 +35,5 @@ type InvoiceService interface {
 type InvoiceRepository interface {
 	Create(i *Invoice) error
 	FindByNumeration(n string) (*Invoice, error)
-	FindAll(page, size int) ([]Invoice, error)
+	FindAll(page, size int) ([]Invoice, int, error)
 }

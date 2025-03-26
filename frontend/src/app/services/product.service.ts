@@ -13,6 +13,7 @@ export interface ProductResponse {
   content: Product[];
   page: number;
   size: number;
+  total: number;
 }
 
 @Injectable({
@@ -31,7 +32,7 @@ export class ProductService {
     return this.http.post<Product>(`${this.apiUrl}/products`, product);
   }
 
-  deleteProduct(id: string): Observable<void> {
+  deleteProduct(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/products/${id}`);
   }
 }

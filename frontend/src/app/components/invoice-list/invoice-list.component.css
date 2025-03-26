@@ -49,4 +49,14 @@ table {
   padding: 4px 8px;
   border-radius: 4px;
   background-color: #E8F5E9;
+}
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 400px;
+}
+
+mat-paginator {
+  margin-top: 20px;
 } 

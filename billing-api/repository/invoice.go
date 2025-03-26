@@ -55,9 +55,9 @@ func (ir *InvoiceRepository) FindByNumeration(n string) (*domain.Invoice, error)
 	return &invoice, nil
 }
 
-func (ir *InvoiceRepository) FindAll(page, size int) ([]domain.Invoice, error) {
+func (ir *InvoiceRepository) FindAll(page, size int) ([]domain.Invoice, int, error) {
 	var invoices []domain.Invoice
-	offset := (page - 1) * size
+	offset := page * size
 
 	result := ir.db.
 		Offset(offset).
@@ -66,8 +66,11 @@ func (ir *InvoiceRepository) FindAll(page, size int) ([]domain.Invoice, error) {
 		Find(&invoices)
 
 	if result.Error != nil {
-		return nil, result.Error
+		return nil, 0, result.Error
 	}
 
-	return invoices, nil
+	var count int64
+	result = ir.db.Model(&domain.Invoice{}).Count(&count)
+
+	return invoices, int(count), nil
 }

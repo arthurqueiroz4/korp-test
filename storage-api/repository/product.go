@@ -40,9 +40,9 @@ func (pr *ProductRepository) FindByName(name string) (*domain.Product, error) {
 	return &product, nil
 }
 
-func (pr *ProductRepository) FindAll(page, size int) ([]domain.Product, error) {
+func (pr *ProductRepository) FindAll(page, size int) ([]domain.Product, int, error) {
 	var products []domain.Product
-	offset := (page - 1) * size
+	offset := page * size
 
 	result := pr.db.
 		Offset(offset).
@@ -50,10 +50,13 @@ func (pr *ProductRepository) FindAll(page, size int) ([]domain.Product, error) {
 		Find(&products)
 
 	if result.Error != nil {
-		return nil, result.Error
+		return nil, 0, result.Error
 	}
 
-	return products, nil
+	var count int64
+	result = pr.db.Model(&domain.Product{}).Count(&count)
+
+	return products, int(count), nil
 }
 
 func (pr *ProductRepository) Delete(id int) error {

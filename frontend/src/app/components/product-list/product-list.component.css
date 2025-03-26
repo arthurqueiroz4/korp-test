@@ -38,3 +38,13 @@ mat-card {
 td.mat-column-balance {
   padding-right: 24px;
 }
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 400px;
+}
+
+mat-paginator {
+  margin-top: 20px;
+}

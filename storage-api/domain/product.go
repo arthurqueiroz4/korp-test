@@ -22,6 +22,6 @@ type ProductService interface {
 type ProductRepository interface {
 	Create(p *Product) error
 	FindByName(name string) (*Product, error)
-	FindAll(page, size int) ([]Product, error)
+	FindAll(page, size int) ([]Product, int, error)
 	Delete(id int) error
 }
