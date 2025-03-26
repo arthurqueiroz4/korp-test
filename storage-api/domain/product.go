@@ -17,6 +17,8 @@ type ProductService interface {
 	Create(dto *dto.ProductCreateDto) (*dto.ProductReadDto, error)
 	GetAll(page, size int) (*dto.Page[dto.ProductReadDto], error)
 	Delete(id int) error
+
+	ValidateQuantity(ips []dto.InvoiceProductDto) error
 }
 
 type ProductRepository interface {
@@ -24,4 +26,5 @@ type ProductRepository interface {
 	FindByName(name string) (*Product, error)
 	FindAll(page, size int) ([]Product, int, error)
 	Delete(id int) error
+	FindAllByIds(ids []uint) ([]Product, error)
 }

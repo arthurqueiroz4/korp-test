@@ -2,6 +2,7 @@ package repository
 
 import (
 	"errors"
+	"fmt"
 	"log/slog"
 	"storage-api/domain"
 
@@ -71,4 +72,19 @@ func (pr *ProductRepository) Delete(id int) error {
 	}
 
 	return nil
+}
+
+func (pr *ProductRepository) FindAllByIds(ids []uint) ([]domain.Product, error) {
+	var products []domain.Product
+
+	if len(ids) == 0 {
+		return products, nil
+	}
+
+	err := pr.db.Where("id IN ?", ids).Find(&products).Error
+	if err != nil {
+		return nil, fmt.Errorf("failed to find products by ids: %w", err)
+	}
+
+	return products, nil
 }

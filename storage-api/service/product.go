@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"storage-api/domain"
 	"storage-api/dto"
 	"storage-api/exception"
@@ -70,5 +71,39 @@ func (ps *ProductService) GetAll(page, size int) (*dto.Page[dto.ProductReadDto],
 
 func (ps *ProductService) Delete(id int) error {
 	_ = ps.pr.Delete(id)
+	return nil
+}
+
+func (ps *ProductService) ValidateQuantity(ips []dto.InvoiceProductDto) error {
+	if len(ips) == 0 {
+		return nil
+	}
+
+	ids := make([]uint, len(ips))
+	for i, ip := range ips {
+		ids[i] = ip.InvoiceID
+	}
+
+	products, err := ps.pr.FindAllByIds(ids)
+	if err != nil {
+		return err
+	}
+
+	stockByProductID := make(map[uint]int, len(products))
+	for _, product := range products {
+		stockByProductID[product.ID] = product.Balance
+	}
+
+	for _, ip := range ips {
+		availableStock, exists := stockByProductID[ip.ProductID]
+		if !exists {
+			return exception.NewErrBadRequest("", fmt.Sprintf("Product with ID %d not found", ip.ProductID))
+		}
+		if ip.Quantity > stockByProductID[ip.ProductID] {
+			return exception.NewErrBadRequest("", fmt.Sprintf("Insufficient stock for product %d. Requested: %d, Available: %d",
+				ip.ProductID, ip.Quantity, availableStock))
+		}
+	}
+
 	return nil
 }
