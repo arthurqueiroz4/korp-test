@@ -1,0 +1,37 @@
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.products-list {
+  margin: 24px 0;
+}
+
+.product-item {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+.product-item mat-form-field {
+  flex: 1;
+}
+
+.add-product-btn {
+  margin: 16px 0;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+h3 {
+  color: rgba(0, 0, 0, 0.87);
+  margin-bottom: 16px;
+} 

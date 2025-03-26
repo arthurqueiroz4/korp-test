@@ -1,0 +1,49 @@
+<form [formGroup]="invoiceForm" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Numeração</mat-label>
+    <input matInput formControlName="numeration" placeholder="Digite a numeração da nota">
+    <mat-error *ngIf="invoiceForm.get('numeration')?.hasError('required')">
+      Numeração é obrigatória
+    </mat-error>
+  </mat-form-field>
+
+  <div formArrayName="products" class="products-list">
+    <h3>Produtos</h3>
+    
+    <div *ngFor="let product of products.controls; let i=index" [formGroupName]="i" class="product-item">
+      <mat-form-field appearance="outline">
+        <mat-label>ID do Produto</mat-label>
+        <input matInput type="number" formControlName="id" placeholder="ID do produto">
+        <mat-error *ngIf="product.get('id')?.hasError('required')">
+          ID do produto é obrigatório
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Quantidade</mat-label>
+        <input matInput type="number" formControlName="quantity" placeholder="Quantidade">
+        <mat-error *ngIf="product.get('quantity')?.hasError('required')">
+          Quantidade é obrigatória
+        </mat-error>
+        <mat-error *ngIf="product.get('quantity')?.hasError('min')">
+          Quantidade deve ser maior que 0
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-icon-button color="warn" type="button" (click)="removeProduct(i)" title="Remover produto">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+
+    <button mat-stroked-button type="button" (click)="addProduct()" class="add-product-btn">
+      <mat-icon>add</mat-icon>
+      Adicionar Produto
+    </button>
+  </div>
+
+  <div class="button-container">
+    <button mat-raised-button color="primary" type="submit" [disabled]="!invoiceForm.valid || isLoading">
+      {{ isLoading ? 'Criando...' : 'Criar Nota Fiscal' }}
+    </button>
+  </div>
+</form> 
