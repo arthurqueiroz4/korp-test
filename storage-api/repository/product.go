@@ -55,7 +55,7 @@ func (pr *ProductRepository) FindAll(page, size int) ([]domain.Product, int, err
 	}
 
 	var count int64
-	result = pr.db.Model(&domain.Product{}).Count(&count)
+	pr.db.Model(&domain.Product{}).Count(&count)
 
 	return products, int(count), nil
 }
@@ -87,4 +87,31 @@ func (pr *ProductRepository) FindAllByIds(ids []uint) ([]domain.Product, error) 
 	}
 
 	return products, nil
+}
+
+func (pr *ProductRepository) UpdateBalance(discountById map[uint]int) error {
+	tx := pr.db.Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
+
+	for productID, quantity := range discountById {
+		result := tx.Model(&domain.Product{}).
+			Where("id = ? AND balance >= ?", productID, quantity).
+			Update("balance", gorm.Expr("balance - ?", quantity))
+
+		if result.Error != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to update balance for product %d: %w", productID, result.Error)
+		}
+
+		if result.RowsAffected == 0 {
+			tx.Rollback()
+			return fmt.Errorf("product %d not found or insufficient balance", productID)
+		}
+	}
+
+	return tx.Commit().Error
 }

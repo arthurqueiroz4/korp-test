@@ -11,6 +11,7 @@ import (
 func main() {
 	env := config.NewEnv()
 	db := config.NewPostgresDatabase(env)
+	config.BuildAndListenQueues(env, db)
 	app := fiber.New()
 
 	api.Setup(app, db)
@@ -19,6 +20,5 @@ func main() {
 		_, err := c.WriteString("ok")
 		return err
 	})
-
 	log.Fatal(app.Listen(env.WebServerPort))
 }

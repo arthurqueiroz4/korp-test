@@ -19,6 +19,7 @@ type ProductService interface {
 	Delete(id int) error
 
 	ValidateQuantity(ips []dto.InvoiceProductDto) error
+	UpdateBalance(ips []dto.InvoiceProductDto) error
 }
 
 type ProductRepository interface {
@@ -27,4 +28,5 @@ type ProductRepository interface {
 	FindAll(page, size int) ([]Product, int, error)
 	Delete(id int) error
 	FindAllByIds(ids []uint) ([]Product, error)
+	UpdateBalance(discountById map[uint]int) error
 }

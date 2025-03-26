@@ -107,3 +107,21 @@ func (ps *ProductService) ValidateQuantity(ips []dto.InvoiceProductDto) error {
 
 	return nil
 }
+
+func (ps *ProductService) UpdateBalance(ips []dto.InvoiceProductDto) error {
+	if len(ips) == 0 {
+		return nil
+	}
+	discountById := make(map[uint]int, len(ips))
+	for _, ip := range ips {
+		discountById[ip.ProductID] = ip.Quantity
+	}
+	if err := ps.ValidateQuantity(ips); err != nil {
+		return fmt.Errorf("validation failed: %w", err)
+	}
+	err := ps.pr.UpdateBalance(discountById)
+	if err != nil {
+		return err
+	}
+	return nil
+}
