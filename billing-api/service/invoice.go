@@ -65,3 +65,29 @@ func makeInvoiceProductDto(entities []*domain.InvoiceProduct) []dto.InvoiceProdu
 	}
 	return ips
 }
+
+func (is *InvoiceService) GetAll(page, size int) (*dto.Page[dto.InvoiceReadDto], error) {
+	if page < 0 {
+		page = 1
+	}
+	if size <= 0 {
+		size = 10
+	}
+
+	invoices, err := is.ir.FindAll(page, size)
+	if err != nil {
+		return nil, err
+	}
+
+	responseDtos := make([]dto.InvoiceReadDto, len(invoices))
+	automapper.MapLoose(invoices, &responseDtos)
+	for i, v := range invoices {
+		responseDtos[i].Items = makeInvoiceProductDto(v.Items)
+	}
+
+	return &dto.Page[dto.InvoiceReadDto]{
+		Content: responseDtos,
+		Page:    page,
+		Size:    size,
+	}, nil
+}

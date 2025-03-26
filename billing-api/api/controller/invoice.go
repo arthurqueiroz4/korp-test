@@ -3,6 +3,7 @@ package controller
 import (
 	"billing-api/domain"
 	"billing-api/dto"
+	"strconv"
 
 	"github.com/gofiber/fiber/v3"
 )
@@ -27,4 +28,20 @@ func (ic *InvoiceController) Create(c fiber.Ctx) error {
 	}
 	return c.Status(fiber.StatusCreated).
 		JSON(responseDto)
+}
+
+func (ic *InvoiceController) GetAll(c fiber.Ctx) error {
+	pageStr := c.Query("page", "1")
+	sizeStr := c.Query("size", "10")
+	page, err := strconv.Atoi(pageStr)
+	if err != nil {
+		return err
+	}
+	size, err := strconv.Atoi(sizeStr)
+	if err != nil {
+		return err
+	}
+	responseDtos, err := ic.is.GetAll(page, size)
+	return c.Status(fiber.StatusOK).
+		JSON(responseDtos)
 }

@@ -14,4 +14,5 @@ func NewInvoiceRouter(db *gorm.DB, r fiber.Router) {
 	is := service.NewInvoiceService(ir)
 	ic := controller.NewInvoiceController(is)
 	r.Post("/invoices", ic.Create)
+	r.Get("/invoices", ic.GetAll)
 }

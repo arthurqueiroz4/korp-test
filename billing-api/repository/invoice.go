@@ -54,3 +54,20 @@ func (ir *InvoiceRepository) FindByNumeration(n string) (*domain.Invoice, error)
 
 	return &invoice, nil
 }
+
+func (ir *InvoiceRepository) FindAll(page, size int) ([]domain.Invoice, error) {
+	var invoices []domain.Invoice
+	offset := (page - 1) * size
+
+	result := ir.db.
+		Offset(offset).
+		Limit(size).
+		Preload("Items").
+		Find(&invoices)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return invoices, nil
+}
