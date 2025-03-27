@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
@@ -34,7 +34,9 @@ export class InvoiceListComponent implements OnInit {
   currentPage = 0;
   pageSizeOptions = [5, 10, 25, 50];
 
-  constructor(private invoiceService: InvoiceService) {}
+  constructor(
+    private invoiceService: InvoiceService,
+  ) {}
 
   ngOnInit(): void {
     this.loadInvoices();
@@ -87,7 +89,7 @@ export class InvoiceListComponent implements OnInit {
     if (invoice.id) {
       this.invoiceService.enqueueInvoice(invoice.id).subscribe({
         next: () => {
-          this.loadInvoices();
+          invoice.status = 'PROCESSING';
         },
         error: (error) => {
           console.error('Erro ao processar nota fiscal:', error);

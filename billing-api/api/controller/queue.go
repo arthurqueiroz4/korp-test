@@ -26,5 +26,7 @@ func (qc *QueueController) Enqueue(c fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	return c.SendStatus(fiber.StatusAccepted)
+	return c.Status(fiber.StatusAccepted).JSON(fiber.Map{
+		"message": "Invoice queued successfully",
+	})
 }
