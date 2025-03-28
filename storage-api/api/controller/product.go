@@ -31,8 +31,9 @@ func (pc *ProductController) Create(c fiber.Ctx) error {
 }
 
 func (pc *ProductController) GetAll(c fiber.Ctx) error {
-	pageStr := c.Query("page", "1")
+	pageStr := c.Query("page", "0")
 	sizeStr := c.Query("size", "10")
+	name := c.Query("name")
 	page, err := strconv.Atoi(pageStr)
 	if err != nil {
 		return err
@@ -42,7 +43,7 @@ func (pc *ProductController) GetAll(c fiber.Ctx) error {
 		return err
 	}
 
-	responseDtos, err := pc.ps.GetAll(page, size)
+	responseDtos, err := pc.ps.GetAll(page, size, name)
 	if err != nil {
 		return err
 	}

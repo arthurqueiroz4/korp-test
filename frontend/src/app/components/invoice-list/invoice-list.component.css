@@ -28,9 +28,8 @@ table {
 }
 
 .mat-column-actions {
-  width: 80px;
-  text-align: left;
-  padding-left: 0;
+  width: 100px;
+  text-align: center;
 }
 
 .status-opened {
@@ -73,4 +72,44 @@ table {
 
 mat-paginator {
   margin-top: 20px;
+}
+
+.actions-cell {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.actions-cell button {
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actions-cell .mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+}
+
+.actions-column {
+  width: 120px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.action-buttons button {
+  min-width: 36px;
+  padding: 0;
 } 

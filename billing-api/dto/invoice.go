@@ -13,8 +13,9 @@ type InvoiceReadDto struct {
 }
 
 type InvoiceProductDto struct {
-	ID       uint `json:"id"`
-	Quantity int  `json:"quantity"`
+	ID       uint   `json:"id"`
+	Name     string `json:"name"`
+	Quantity int    `json:"quantity"`
 }
 
 type InvoiceProductRecvDto struct {

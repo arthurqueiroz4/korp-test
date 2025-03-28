@@ -6,7 +6,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { InvoiceService, Invoice } from '../../services/invoice.service';
+import { InvoiceProductsDialogComponent } from '../invoice-products-dialog/invoice-products-dialog.component';
 
 @Component({
   selector: 'app-invoice-list',
@@ -18,7 +20,8 @@ import { InvoiceService, Invoice } from '../../services/invoice.service';
     MatButtonModule,
     MatIconModule,
     MatPaginatorModule,
-    RouterModule
+    RouterModule,
+    MatDialogModule
   ],
   templateUrl: './invoice-list.component.html',
   styleUrl: './invoice-list.component.css'
@@ -36,6 +39,7 @@ export class InvoiceListComponent implements OnInit {
 
   constructor(
     private invoiceService: InvoiceService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -96,5 +100,12 @@ export class InvoiceListComponent implements OnInit {
         }
       });
     }
+  }
+
+  openProductsDialog(invoice: Invoice): void {
+    this.dialog.open(InvoiceProductsDialogComponent, {
+      width: '600px',
+      data: invoice
+    });
   }
 } 

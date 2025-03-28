@@ -41,21 +41,24 @@ func (pr *ProductRepository) FindByName(name string) (*domain.Product, error) {
 	return &product, nil
 }
 
-func (pr *ProductRepository) FindAll(page, size int) ([]domain.Product, int, error) {
+func (pr *ProductRepository) FindAll(page, size int, name string) ([]domain.Product, int, error) {
 	var products []domain.Product
 	offset := page * size
+	var count int64
 
-	result := pr.db.
-		Offset(offset).
-		Limit(size).
-		Find(&products)
+	query := pr.db.Model(&domain.Product{})
 
-	if result.Error != nil {
-		return nil, 0, result.Error
+	if name != "" {
+		query = query.Where("name LIKE ?", "%"+name+"%")
 	}
 
-	var count int64
-	pr.db.Model(&domain.Product{}).Count(&count)
+	if err := query.Count(&count).Error; err != nil {
+		return nil, 0, fmt.Errorf("erro ao contar produtos: %w", err)
+	}
+
+	if err := query.Order("id").Offset(offset).Limit(size).Find(&products).Error; err != nil {
+		return nil, 0, fmt.Errorf("erro ao buscar produtos: %w", err)
+	}
 
 	return products, int(count), nil
 }

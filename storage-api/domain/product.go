@@ -15,7 +15,7 @@ type Product struct {
 
 type ProductService interface {
 	Create(dto *dto.ProductCreateDto) (*dto.ProductReadDto, error)
-	GetAll(page, size int) (*dto.Page[dto.ProductReadDto], error)
+	GetAll(page, size int, name string) (*dto.Page[dto.ProductReadDto], error)
 	Delete(id int) error
 
 	ValidateQuantity(ips []dto.InvoiceProductDto) error
@@ -25,7 +25,7 @@ type ProductService interface {
 type ProductRepository interface {
 	Create(p *Product) error
 	FindByName(name string) (*Product, error)
-	FindAll(page, size int) ([]Product, int, error)
+	FindAll(page, size int, name string) ([]Product, int, error)
 	Delete(id int) error
 	FindAllByIds(ids []uint) ([]Product, error)
 	UpdateBalance(discountById map[uint]int) error

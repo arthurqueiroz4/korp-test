@@ -46,15 +46,15 @@ func (ps *ProductService) Create(creatingDto *dto.ProductCreateDto) (*dto.Produc
 	return readingDto, nil
 }
 
-func (ps *ProductService) GetAll(page, size int) (*dto.Page[dto.ProductReadDto], error) {
+func (ps *ProductService) GetAll(page, size int, name string) (*dto.Page[dto.ProductReadDto], error) {
 	if page < 0 {
-		page = 1
+		page = 0
 	}
 	if size <= 0 {
 		size = 10
 	}
 
-	products, total, err := ps.pr.FindAll(page, size)
+	products, total, err := ps.pr.FindAll(page, size, name)
 	if err != nil {
 		return nil, err
 	}

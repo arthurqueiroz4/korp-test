@@ -5,6 +5,7 @@ import (
 	"billing-api/dto"
 	"billing-api/exception"
 	"fmt"
+	"log/slog"
 
 	"github.com/peteprogrammer/go-automapper"
 )
@@ -50,8 +51,10 @@ func makeInvoiceProduct(dtos []dto.InvoiceProductDto) []*domain.InvoiceProduct {
 		ips[i] = &domain.InvoiceProduct{
 			InvoiceID: 0,
 			ProductID: dtos[i].ID,
+			Name:      dtos[i].Name,
 			Quantity:  dtos[i].Quantity,
 		}
+		slog.Info("InvoiceService#makeInvoiceProduct", "ips", ips[i])
 	}
 	return ips
 }
@@ -61,6 +64,7 @@ func makeInvoiceProductDto(entities []*domain.InvoiceProduct) []dto.InvoiceProdu
 	for i := range ips {
 		ips[i] = dto.InvoiceProductDto{
 			ID:       entities[i].ProductID,
+			Name:     entities[i].Name,
 			Quantity: entities[i].Quantity,
 		}
 	}

@@ -5,6 +5,7 @@ import { Product } from './product.service';
 
 export interface InvoiceProduct {
   id?: number;
+  name: string;
   quantity: number;
 }
 

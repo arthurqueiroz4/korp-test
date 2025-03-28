@@ -22,8 +22,9 @@ type Invoice struct {
 }
 
 type InvoiceProduct struct {
-	InvoiceID uint `gorm:"not null;index"`
-	ProductID uint `gorm:"not null;index"`
+	InvoiceID uint   `gorm:"not null;index"`
+	ProductID uint   `gorm:"not null;index"`
+	Name      string `gorm:"type:varchar(128)"`
 	Quantity  int
 }
 
