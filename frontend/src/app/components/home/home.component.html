@@ -5,6 +5,17 @@
     </mat-card-header>
 
     <mat-card-content>
+      <div class="refresh-button-container">
+        <button mat-icon-button 
+                color="primary" 
+                (click)="refreshTables()" 
+                matTooltip="Atualizar tabelas"
+                #refreshButton
+                [class.spinning]="isRefreshing">
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
+
       <mat-tab-group [(selectedIndex)]="selectedTabIndex" (selectedIndexChange)="onTabChange($event)">
         <mat-tab label="Produtos">
           <div class="tab-content">
