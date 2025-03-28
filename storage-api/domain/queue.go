@@ -9,5 +9,5 @@ type QueueConfig struct {
 
 type QueueService interface {
 	Listen()
-	Send(dtos []dto.InvoiceProductDto) error
+	Send(dtos []dto.InvoiceProductDto, status string, detail string) error
 }

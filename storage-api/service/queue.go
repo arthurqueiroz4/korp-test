@@ -38,20 +38,21 @@ func (qs *QueueService) Listen() {
 		err := qs.ps.UpdateBalance(dtos)
 		if err != nil {
 			slog.Error("QueueService#Listen", "error", err)
-			qs.Send(dtos, "FAILED")
+			qs.Send(dtos, "FAILED", err.Error())
 			continue
 		}
 
-		err = qs.Send(dtos, "CLOSED")
+		err = qs.Send(dtos, "CLOSED", "")
 		if err != nil {
 			continue
 		}
 	}
 }
 
-func (qs *QueueService) Send(dtos []dto.InvoiceProductDto, status string) error {
+func (qs *QueueService) Send(dtos []dto.InvoiceProductDto, status string, detail string) error {
 	dtoToSend := dto.MessageForBilling{
 		InvoiceID: dtos[0].InvoiceID,
+		Detail:    detail,
 		Status:    status,
 	}
 

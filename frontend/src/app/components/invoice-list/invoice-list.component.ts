@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { InvoiceService, Invoice } from '../../services/invoice.service';
 import { InvoiceProductsDialogComponent } from '../invoice-products-dialog/invoice-products-dialog.component';
 
@@ -21,7 +22,8 @@ import { InvoiceProductsDialogComponent } from '../invoice-products-dialog/invoi
     MatIconModule,
     MatPaginatorModule,
     RouterModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTooltipModule
   ],
   templateUrl: './invoice-list.component.html',
   styleUrl: './invoice-list.component.css'

@@ -2,7 +2,6 @@ package service
 
 import (
 	"fmt"
-	"log/slog"
 	"storage-api/domain"
 	"storage-api/dto"
 	"storage-api/exception"
@@ -87,9 +86,8 @@ func (ps *ProductService) ValidateQuantity(ips []dto.InvoiceProductDto) error {
 
 	products, err := ps.pr.FindAllByIds(ids)
 	if err != nil {
-		return err
+		return fmt.Errorf("Problemas na hora de buscar produtos. Erro: %s", err)
 	}
-	slog.Info("ProductService#ValidateQuantity", "products", products)
 	stockByProductID := make(map[uint]int, len(products))
 	for _, product := range products {
 		stockByProductID[product.ID] = product.Balance
@@ -98,11 +96,11 @@ func (ps *ProductService) ValidateQuantity(ips []dto.InvoiceProductDto) error {
 	for _, ip := range ips {
 		availableStock, exists := stockByProductID[ip.ProductID]
 		if !exists {
-			return exception.NewErrBadRequest("", fmt.Sprintf("Product with ID %d not found", ip.ProductID))
+			return exception.NewErrBadRequest("", fmt.Sprintf("Produto com o ID %d nao foi encontrado", ip.ProductID))
 		}
 		if ip.Quantity > stockByProductID[ip.ProductID] {
-			return exception.NewErrBadRequest("", fmt.Sprintf("Insufficient stock for product %d. Requested: %d, Available: %d",
-				ip.ProductID, ip.Quantity, availableStock))
+			return exception.NewErrBadRequest("", fmt.Sprintf("Estoque insuficiente para o produto %s. Pedido: %d, Disponivel: %d",
+				ip.Name, ip.Quantity, availableStock))
 		}
 	}
 
@@ -118,7 +116,7 @@ func (ps *ProductService) UpdateBalance(ips []dto.InvoiceProductDto) error {
 		discountById[ip.ProductID] = ip.Quantity
 	}
 	if err := ps.ValidateQuantity(ips); err != nil {
-		return fmt.Errorf("validation failed: %w", err)
+		return err
 	}
 	err := ps.pr.UpdateBalance(discountById)
 	if err != nil {

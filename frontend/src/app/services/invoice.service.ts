@@ -14,6 +14,7 @@ export interface Invoice {
   numeration: string;
   status: "OPENED" | "CLOSED" | "PROCESSING" | "FAILED";
   products: InvoiceProduct[];
+  detail?: string;
 }
 
 export interface InvoiceResponse {

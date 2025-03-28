@@ -18,6 +18,7 @@ type Invoice struct {
 	gorm.Model
 	Numeration string            `gorm:"type:varchar(50)"`
 	Status     string            `gorm:"type:varchar(20);default:'OPENED'"`
+	Detail     string            `gorm:"type:varchar(100)"`
 	Items      []*InvoiceProduct `gorm:"foreignKey:InvoiceID"`
 }
 
@@ -33,7 +34,7 @@ type InvoiceService interface {
 	GetAll(page, size int) (*dto.Page[dto.InvoiceReadDto], error)
 	GetInvoiceProductsById(id uint) ([]InvoiceProduct, error)
 
-	UpdateStatus(invoiceId uint, status string) error
+	UpdateStatus(invoiceId uint, status string, detail string) error
 }
 
 type InvoiceRepository interface {
@@ -41,5 +42,5 @@ type InvoiceRepository interface {
 	FindByNumeration(n string) (*Invoice, error)
 	FindAll(page, size int) ([]Invoice, int, error)
 	FindInvoiceProductsById(id uint) ([]InvoiceProduct, error)
-	UpdateStatus(id uint, status string) error
+	UpdateStatus(id uint, status string, detail string) error
 }

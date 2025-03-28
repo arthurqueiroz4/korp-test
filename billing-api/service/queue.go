@@ -39,7 +39,7 @@ func (qs *QueueService) Send(invoiceId uint) error {
 		return err
 	}
 
-	qs.is.UpdateStatus(invoiceId, string(domain.Processing))
+	qs.is.UpdateStatus(invoiceId, string(domain.Processing), "")
 	return nil
 }
 
@@ -55,10 +55,7 @@ func (qs *QueueService) Listen() {
 			continue
 		}
 
-		if dtoRecv.Status != "CLOSED" {
-			// TODO: FindById and get InvoiceProducts for resend
-		}
-		err := qs.is.UpdateStatus(dtoRecv.InvoiceId, dtoRecv.Status)
+		err := qs.is.UpdateStatus(dtoRecv.InvoiceId, dtoRecv.Status, dtoRecv.Detail)
 		if err != nil {
 			slog.Error("QueueService#Listen", "err", err)
 		}

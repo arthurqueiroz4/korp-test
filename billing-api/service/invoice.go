@@ -98,11 +98,11 @@ func (is *InvoiceService) GetAll(page, size int) (*dto.Page[dto.InvoiceReadDto],
 	}, nil
 }
 
-func (is *InvoiceService) UpdateStatus(invoiceId uint, status string) error {
+func (is *InvoiceService) UpdateStatus(invoiceId uint, status string, detail string) error {
 	if !validStatus(status) {
 		return fmt.Errorf("invalid status: %s", status)
 	}
-	err := is.ir.UpdateStatus(invoiceId, status)
+	err := is.ir.UpdateStatus(invoiceId, status, detail)
 	if err != nil {
 		return err
 	}

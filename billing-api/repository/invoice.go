@@ -76,10 +76,11 @@ func (ir *InvoiceRepository) FindAll(page, size int) ([]domain.Invoice, int, err
 	return invoices, int(count), nil
 }
 
-func (ir *InvoiceRepository) UpdateStatus(id uint, status string) error {
+func (ir *InvoiceRepository) UpdateStatus(id uint, status string, detail string) error {
 	result := ir.db.Model(&domain.Invoice{}).
 		Where("id = ?", id).
-		Update("status", status)
+		Update("status", status).
+		Update("detail", detail)
 
 	if result.Error != nil {
 		return fmt.Errorf("failed to update invoice status: %w", result.Error)
